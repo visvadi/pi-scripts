@@ -1,7 +1,7 @@
 # pi-scripts
 Some useful scripts for setting up a raspberry pi with special needs.
 
-PISTRAP
+# pistrap
 
 A bash script that modifies an existing bootable Debian/Raspbian image to install additional packages via chroot.
 
@@ -17,8 +17,8 @@ Variables that can be declared in template:
     imgdir
 
 Script usage:
-    pistrap -i /path/to/template
-    pistrap or pistrap -h to view options
+    `pistrap -i /path/to/template`
+    `pistrap or pistrap -h to view options`
 
 How to install:
 
