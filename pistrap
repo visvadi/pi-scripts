@@ -1,0 +1,111 @@
+#!/usr/bin/env bash
+
+# A bash script to create a bootable Raspbian/Debian ROOTFS for Raspberry Pi
+# Uses chroot,qemu-user-static and debootstrap as main dependencies so far
+# Author: Aditya Visvanathan
+
+# Some variables that will be used.
+
+OS="$(uname)"
+DATE=`date +%Y%m%d`
+
+# Declare functions here..
+
+#Display usage he;p for -h parameter and no parameters as well
+usage() {
+    if  [ "$1" = "-h" ] || [ $# -eq 0 ] ; then
+        printf "\tUSAGE: pistrap -i /path/to/config/template\n"
+        exit 1
+    fi
+}
+
+
+#Check if script is not being run with root privileges
+checkuid()
+{
+    if [ "$UID" -eq 0 ]; then
+        echo "You're running with root privileges.Please Don't!"
+        echo "The script will let you know if and when elevated privleges are required"
+        exit 1
+    fi
+}
+
+#Variable to tor template location
+FILELOC=$2
+CHROOT="./bootstrap"             #Default chroot bootstrap location
+checkuid                        #Call checkuid function
+usage "$@"                      #A call for help
+if [ ! -e "$FILELOC" ]; then    #This is more for my testing,will change this shit
+    printf "\tNo template found.\n"
+    exit 1 
+fi
+
+source "$FILELOC"               #Grab variable from template
+echo "Template found,sourcing variables:"
+echo "arch: $arch"
+echo "release: $release"
+echo "Extra packages: ${packagelist[@]}"
+
+#if [ ! -d "$CHROOT" ] || [ "$CHROOT" = "" ]; then
+#   mkdir -p "$CHROOT"
+#fi
+if [ ! -d $buildenv ] || [ "$buildenv" = "" ]; then
+    mkdir -p $buildenv
+fi
+
+ROOTFS="$buildenv/rootfs"
+BOOTFS="${ROOTFS}/boot"
+
+if [ ! -d "$ROOTFS" ]; then
+    mkdir -p "$ROOTFS"
+fi
+
+if [ ! -d "$BOOTFS" ]; then
+    mkdir -p "$BOOTFS"
+fi
+
+if [ ! -e "$imgdir" ]; then
+    echo "\tRaspbian image not found!"
+    exit 2
+fi
+
+sector1=`sudo fdisk -l "$imgdir" | grep 
+
+sudo mount -o loop,offset="$offset1" "$imgdir" "$ROOTFS"
+sudo mount -o loop,offset="$offset2" "$imgdir" "$BOOTFS"
+
+#Copy qemu staic binary
+sudo cp /usr/bin/qemu-arm-staic "$ROOTFS"/usr/bin/
+
+#Mount certain other important partitions
+
+sudo mount --rebind /dev "$ROOTFS"/dev
+sudo mount -t proc none "$ROOTFS"/proc
+sudo mount -o bind /sys "$ROOTFS"/sys
+
+
+#Time to chroot into installation
+sudo chroot "$ROOTFS"
+
+
+#   Entered chroot if everthing went fine. Fingers crossed.
+#   We are now root so no sudo required.
+
+apt-get update
+apt-get upgrade
+
+
+# Installing extra packages as listed in template
+apt-get install -y "${packagelist[@]}"
+
+# Remove qemu static vinary as it is no longer required
+rm /usr/bin/qemu-arm-static
+
+#   Exit chroot
+exit
+
+
+
+
+
+

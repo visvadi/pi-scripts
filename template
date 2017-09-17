@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+#Configuration template to house various variables required for a successful bootstrap
+#Author:Aditya Visvanathan
+
+model="modelb"
+arch="armel"
+packagelist=(tmux vim python-devel)
+mirror="http://archive.raspbian.org/raspbian"
+release="stretch"
+bootmem=64M
+buildenv="$(pwd)/builder"
+imgdir=""
