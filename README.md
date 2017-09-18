@@ -9,16 +9,23 @@ Variables and extra configurations are sourced through an additional file templa
 
 Variables that can be declared in template
 `arch`
+
 `release`
+
 `packagelist`
+
 `model`
+
 `bootmem`
+
 `buildenv`
-`imgdir`
+
+;x
 
 
 # Usage:
-`pistrap` of `pistrap -h` to view options
+`pistrap` or `pistrap -h` to view options.
+
 `pistrap -i /path/to/template`
 
 # Dependencies:
