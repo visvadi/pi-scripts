@@ -7,7 +7,8 @@ A bash script that modifies an existing bootable Debian/Raspbian image to instal
 Variables and extra configurations are sourced through an additional file template.An example template format is provided in the repository.
 
 
-Variables that can be declared in template
+Variables that can be declared in template:
+
 `arch`
 
 `release`
