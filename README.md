@@ -8,18 +8,18 @@ Variables and extra configurations are sourced through an additional file templa
 
 
 Variables that can be declared in template
- arch
-release
-packagelist
-model
-bootmem
-buildenv
-imgdir
+`arch`
+`release`
+`packagelist`
+`model`
+`bootmem`
+`buildenv`
+`imgdir`
 
 
 # Usage:
-    `pistrap -i /path/to/template`
-    `pistrap or pistrap -h to view options`
+`pistrap` of `pistrap -h` to view options
+`pistrap -i /path/to/template`
 
 # Dependencies:
 `qemu-user-static chroot`
