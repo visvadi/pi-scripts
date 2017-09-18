@@ -1,4 +1,4 @@
-# pistrap:
+# pistrap
 
 
 A bash script that modifies an existing bootable Debian/Raspbian image to install additional packages via chroot.
@@ -24,15 +24,15 @@ Variables that can be declared in template:
 
 
 
-## Usage:
+## Usage
 `pistrap` or `pistrap -h` to view options.
 
 `pistrap -i /path/to/template`
 
-## Dependencies:
+## Dependencies
 `qemu-user-static chroot`
 
-## Install:
+## Install
 
 Simply place the script anywhere in your PATH and ensure executable permissions. Make sure the template has executable permissions as well.
 
