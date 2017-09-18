@@ -70,12 +70,14 @@ if [ ! -e "$imgdir" ]; then
 fi
 
 sector1=`sudo fdisk -l "$imgdir" | grep 
-
+sector2=
+offset1=$(($sector1 * 512))
+offset2=$(($sector2 * 512))
 sudo mount -o loop,offset="$offset1" "$imgdir" "$ROOTFS"
 sudo mount -o loop,offset="$offset2" "$imgdir" "$BOOTFS"
 
 #Copy qemu staic binary
-sudo cp /usr/bin/qemu-arm-staic "$ROOTFS"/usr/bin/
+sudo cp /usr/bin/qemu-arm-static "$ROOTFS"/usr/bin/
 
 #Mount certain other important partitions
 
