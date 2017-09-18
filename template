@@ -3,11 +3,11 @@
 #Configuration template to house various variables required for a successful bootstrap
 #Author:Aditya Visvanathan
 
-model="modelb"
-arch="armel"
-packagelist=(tmux vim python-devel)
-mirror="http://archive.raspbian.org/raspbian"
-release="stretch"
-bootmem=64M
-buildenv="$(pwd)/builder"
-imgdir=""
+model="modelb"                                  #   Stores model for raspberry pi
+arch="armel"                                    #   SOC architecture
+packagelist=(tmux vim python-devel)             #   Packages to be installed
+mirror="http://archive.raspbian.org/raspbian"   #   Mirror to fetch image if not found
+release="stretch"                               #   Release codename
+bootmem=64M                                     #   Boot partition size(now obsolete
+buildenv="$(pwd)/builder"                       #   Build directory
+imgdir=""                                       #   Directory for image if found
