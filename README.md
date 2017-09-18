@@ -1,25 +1,24 @@
 # pistrap
 
-
-A bash script that modifies an existing bootable Debian/Raspbian image to install additional packages via chroot.
-
-
-Variables and extra configurations are sourced through an additional file template.An example template format is provided in the repository.
+## About
+A script written in GNU Bash to install additional packages into a Debian/Raspbian live image using chroot.Multiple configuration options can be initialized in a file template. The script is not to be executed with root privileges and the failsafe within the script will terminate the script when excuted as root.
 
 
-Variables that can be declared in template:
+## Template
+The available options are:
 
-`arch`
+`arch` - Architecture of image(armel,armhf)
 
-`release`
+`release` - Debian/Raspbin release codename(stretch,wheezy,jessie)
 
-`packagelist`
+`packagelist` - Array containing names of Debian packages
 
-`model`
+`model` - Model of Raspberry Pi (B+,2,3)
 
-`bootmem`
+`bootmem` - Size of boot partition to be allocated
 
-`buildenv`
+`buildenv` - Build directory
+
 
 
 
