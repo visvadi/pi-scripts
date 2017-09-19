@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+
 
 #Configuration template to house various variables required for a successful bootstrap
 #Author:Aditya Visvanathan
@@ -9,5 +9,5 @@ packagelist=(tmux vim python-devel)             #   Packages to be installed
 mirror="http://archive.raspbian.org/raspbian"   #   Mirror to fetch image if not found
 release="stretch"                               #   Release codename
 bootmem=64M                                     #   Boot partition size(now obsolete
-buildenv="`pwd`/builder"                       #   Build directory
-imgdir=""                                       #   Directory for image if found
+buildenv="`pwd`/builder"                        #   Build directory
+imgdir=""                                       #   Directory for image

@@ -7,15 +7,15 @@ A script written in GNU Bash to install additional packages into a Debian/Raspbi
 ## Template
 The available options are:
 
-`arch` - Architecture of image(armel,armhf)
+`arch` - Architecture of image(armel,armhf) (Useful for cross-compilation)
 
-`release` - Debian/Raspbin release codename(stretch,wheezy,jessie)
+`release` - Debian/Raspbian release codename(stretch,wheezy,jessie) (useful for tracking dependencies and cross-compilation)
 
 `packagelist` - Array containing names of Debian packages
 
-`model` - Model of Raspberry Pi (B+,2,3)
+`model` - Model of Raspberry Pi (B+,2,3) (Cross-compilation purposes)
 
-`bootmem` - Size of boot partition to be allocated
+`bootmem` - Size of boot partition to be allocated(deprecated)
 
 `buildenv` - Build directory
 
