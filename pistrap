@@ -8,6 +8,8 @@
 
 OS="$(uname)"
 DATE=`date +%Y%m%d`
+DEFMIR="http://archive.raspbian.org/raspbian"
+
 
 # Declare functions here..
 
@@ -21,8 +23,7 @@ usage() {
 
 
 #Check if script is not being run with root privileges
-checkuid()
-{
+checkuid() {
     if [ "$UID" -eq 0 ]; then
         echo "You're running with root privileges.Please Don't!"
         echo "The script will let you know if and when elevated privleges are required"
@@ -30,11 +31,14 @@ checkuid()
     fi
 }
 
+
 #Variable to tor template location
 FILELOC=$2
-CHROOT="./bootstrap"             #Default chroot bootstrap location
-checkuid                        #Call checkuid function
-usage "$@"                      #A call for help
+CHECKFLAG=1
+IMAGEFLAG=1
+CHROOT="./bootstrap"            #   Default chroot bootstrap location(obsolete)
+checkuid                        #   Call checkuid function
+usage "$@"                      #   A call for help
 if [ ! -e "$FILELOC" ]; then    #This is more for my testing,will change this shit
     printf "\tNo template found.\n"
     exit 1 
@@ -42,16 +46,45 @@ fi
 
 source "$FILELOC"               #Grab variable from template
 echo "Template found,sourcing variables:"
-echo "arch: $arch"
-echo "release: $release"
-echo "Extra packages: ${packagelist[@]}"
 
-#if [ ! -d "$CHROOT" ] || [ "$CHROOT" = "" ]; then
-#   mkdir -p "$CHROOT"
-#fi
+if [ "$imgdir" = "" ] || [ ! -e "$imgdir" ]; then
+    echo "Warning:No Raspbian/Debian image found as specified in template"
+    exit 1 
+fi
+
+
+#   Check for architecture
+if [ "$arch" = "" ]; then
+    echo "Warning:No architecture specified in template"
+    
+else
+    printf "\nArchitecture:$arch\n"
+
+fi
+
+
+#   Check for package list
+if [ "${#packagelist[@]}" -eq 0 ]; then
+    echo "Empty package list!"
+    echo "Aborting"
+    exit 1
+fi
+
+
+#   Check release
+if [ "$release" = "" ]; then
+    echo "Warning:Release codename not specified in template"
+    
+else
+    echo "Release codename:$release"
+fi
+
+
+#   Check for build environment and create if not found        
 if [ ! -d $buildenv ] || [ "$buildenv" = "" ]; then
     mkdir -p $buildenv
 fi
+
 
 ROOTFS="$buildenv/rootfs"
 BOOTFS="${ROOTFS}/boot"
@@ -64,12 +97,7 @@ if [ ! -d "$BOOTFS" ]; then
     mkdir -p "$BOOTFS"
 fi
 
-if [ ! -e "$imgdir" ]; then
-    echo "\tRaspbian image not found!"
-    exit 2
-fi
-
-sector1=`sudo fdisk -l "$imgdir" | grep 
+sector1=`sudo fdisk -l "$imgdir" | grep `
 sector2=
 offset1=$(($sector1 * 512))
 offset2=$(($sector2 * 512))
