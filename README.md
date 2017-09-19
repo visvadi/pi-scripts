@@ -36,5 +36,11 @@ The available options are:
 Simply place the script anywhere in your PATH and ensure executable permissions. Make sure the template has executable permissions as well.
 
 
+## Future goals
+
+Allow for cross-compilation.
+
+Make codebase much cleaner and modular.
+
 
 Feel free to report issues.    
