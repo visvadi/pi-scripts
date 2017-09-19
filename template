@@ -9,5 +9,5 @@ packagelist=(tmux vim python-devel)             #   Packages to be installed
 mirror="http://archive.raspbian.org/raspbian"   #   Mirror to fetch image if not found
 release="stretch"                               #   Release codename
 bootmem=64M                                     #   Boot partition size(now obsolete
-buildenv="$(pwd)/builder"                       #   Build directory
+buildenv="`pwd`/builder"                       #   Build directory
 imgdir=""                                       #   Directory for image if found
