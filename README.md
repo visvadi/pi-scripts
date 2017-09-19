@@ -29,7 +29,7 @@ The available options are:
 `pistrap -i /path/to/template`
 
 ## Dependencies
-`qemu-user-static chroot`
+`qemu-user-static` `chroot`
 
 ## Install
 
@@ -38,9 +38,11 @@ Simply place the script anywhere in your PATH and ensure executable permissions.
 
 ## Future goals
 
-Allow for cross-compilation.
+- Allow for cross-compilation.
 
-Make codebase much cleaner and modular.
+- Make codebase much cleaner and modular.
+
+
 
 
 Feel free to report issues.    
