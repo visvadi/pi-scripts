@@ -5,9 +5,9 @@
 
 model="modelb"                                  #   Stores model for raspberry pi
 arch="armel"                                    #   SOC architecture
-packagelist=(tmux vim python-devel)             #   Packages to be installed
+packagelist=(tmux vim python-devel build-essential cmake pkg-config libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libx264-dev libxvidcore-dev libgtk2.0-dev libgtk-3-dev libatlas-base-dev gfortran python2.7-dev python3-dev)             #   Packages to be installed
 mirror="http://archive.raspbian.org/raspbian"   #   Mirror to fetch image if not found
 release="stretch"                               #   Release codename
 bootmem=64M                                     #   Boot partition size(now obsolete
-buildenv="`pwd`/builder"                        #   Build directory
-imgdir=""                                       #   Directory for image
+rootfs="$HOME/storage/livecds/mnt"                        #   Build directory
+imgdir="$HOME/storage/livecds/2017-09-07-raspbian-stretch-lite.img"                                       #   Directory for image
