@@ -24,7 +24,7 @@ usage() {
 
 #Check if script is not being run with root privileges
 checkuid() {
-    if [ "$UID" -eq 0 ]; then
+    if [  "$UID" -eq 0 ]; then
         echo "You're running with root privileges.Please Don't!"
         echo "The script will let you know if and when elevated privleges are required"
         exit 1
@@ -46,6 +46,10 @@ fi
 
 source "$FILELOC"               #Grab variable from template
 echo "Template found,sourcing variables:"
+
+if [ ! -d "$rootfs" ]; then
+    mkdir -p "$rootfs"
+fi
 
 if [ "$imgdir" = "" ] || [ ! -e "$imgdir" ]; then
     echo "Warning:No Raspbian/Debian image found as specified in template"
@@ -79,60 +83,34 @@ else
     echo "Release codename:$release"
 fi
 
-
 #   Check for build environment and create if not found        
-if [ ! -d $buildenv ] || [ "$buildenv" = "" ]; then
-    mkdir -p $buildenv
-fi
+
+#   Expand image by space
+OFFSET2=8192
+OFFSET1=94208
+#sudo dd if=/dev/zero bs=1M count=1024 >> "$imgdir"
+
+#   Set up image as loop device
+sudo mount -o loop,offset=48234496 "$imgdir" "$rootfs"
+sudo mount -o bind /dev "$rootfs"/dev
+sudo mount -o bind /proc "$rootfs"/proc
+sudo mount -o bind /sys "$rootfs"/sys
+
+#   copy qemu binary
+sudo cp /usr/bin/qemu-arm-static "$rootfs"/usr/bin/
+
+#   chroot to raspbian
+sudo chroot "$rootfs" `bin/bash 
+
+#   revert ld.so.preload fix
 
 
-ROOTFS="$buildenv/rootfs"
-BOOTFS="${ROOTFS}/boot"
-
-if [ ! -d "$ROOTFS" ]; then
-    mkdir -p "$ROOTFS"
-fi
-
-if [ ! -d "$BOOTFS" ]; then
-    mkdir -p "$BOOTFS"
-fi
-
-sector1=`sudo fdisk -l "$imgdir" | grep `
-sector2=
-offset1=$(($sector1 * 512))
-offset2=$(($sector2 * 512))
-sudo mount -o loop,offset="$offset1" "$imgdir" "$ROOTFS"
-sudo mount -o loop,offset="$offset2" "$imgdir" "$BOOTFS"
-
-#Copy qemu staic binary
-sudo cp /usr/bin/qemu-arm-static "$ROOTFS"/usr/bin/
-
-#Mount certain other important partitions
-
-sudo mount --rebind /dev "$ROOTFS"/dev
-sudo mount -t proc none "$ROOTFS"/proc
-sudo mount -o bind /sys "$ROOTFS"/sys
+#   unmount everything
+#    unmount loop device
 
 
-#Time to chroot into installation
-sudo chroot "$ROOTFS"
+exit 0
 
-
-#   Entered chroot if everthing went fine. Fingers crossed.
-#   We are now root so no sudo required.
-
-apt-get update
-apt-get upgrade
-
-
-# Installing extra packages as listed in template
-apt-get install -y "${packagelist[@]}"
-
-# Remove qemu static vinary as it is no longer required
-rm /usr/bin/qemu-arm-static
-
-#   Exit chroot
-exit
 
 
 
