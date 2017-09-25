@@ -9,5 +9,5 @@ packagelist=(tmux vim python-devel build-essential cmake pkg-config libjpeg-dev 
 mirror="http://archive.raspbian.org/raspbian"   #   Mirror to fetch image if not found
 release="stretch"                               #   Release codename
 bootmem=64M                                     #   Boot partition size(now obsolete
-rootfs="$HOME/storage/livecds/mnt"                        #   Build directory
-imgdir="$HOME/storage/livecds/2017-09-07-raspbian-stretch-lite.img"                                       #   Directory for image
+rootfs="$HOME/storage/raspberrypi/rootfs"                        #   Build directory
+imgdir="$HOME/storage/raspberrypi/raspbian/raspbian-custom/2017-09-07-raspbian-stretch-lite-custom.img"                                       #   Directory for image

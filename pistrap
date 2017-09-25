@@ -90,17 +90,23 @@ OFFSET2=8192
 OFFSET1=94208
 #sudo dd if=/dev/zero bs=1M count=1024 >> "$imgdir"
 
+#   Check if device is mounted before mounting
+if [ ! ls "$rootfs" ]; then
+    echo "Image not mounted"
+    echo "Mounting"
 #   Set up image as loop device
-sudo mount -o loop,offset=48234496 "$imgdir" "$rootfs"
-sudo mount -o bind /dev "$rootfs"/dev
-sudo mount -o bind /proc "$rootfs"/proc
-sudo mount -o bind /sys "$rootfs"/sys
+    sudo mount -o loop,offset=48234496 "$imgdir" "$rootfs"
+    sudo mount -o bind /dev "$rootfs"/dev
+    sudo mount -o bind /proc "$rootfs"/proc
+    sudo mount -o bind /sys "$rootfs"/sys
+fi
 
 #   copy qemu binary
 sudo cp /usr/bin/qemu-arm-static "$rootfs"/usr/bin/
 
 #   chroot to raspbian
-sudo chroot "$rootfs" `bin/bash 
+sudo cp install.sh "$rootfs"/
+sudo chroot "$rootfs" /bin/bash install.sh 
 
 #   revert ld.so.preload fix
 
@@ -109,7 +115,7 @@ sudo chroot "$rootfs" `bin/bash
 #    unmount loop device
 
 
-exit 0
+
 
 
 
