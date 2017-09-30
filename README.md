@@ -29,7 +29,7 @@ The available options are:
 `pistrap -i /path/to/template`
 
 ## Dependencies
-`qemu-user-static` `chroot`
+`qemu-user-static` `chroot` `binfmt-support`
 
 ## Install
 
