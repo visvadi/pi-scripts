@@ -1,1 +1,0 @@
-This is a simple shell script to create custom rootfs for Raspbian using chroot and debootstrap. Thereby allowing the install of any packages before hand.
