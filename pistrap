@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 
-# A bash script to create a bootable Raspbian/Debian ROOTFS for Raspberry Pi
-# Uses chroot,qemu-user-static and debootstrap as main dependencies so far
-# Author: Aditya Visvanathan
+#   A bash script to create a bootable Raspbian/Debian ROOTFS for Raspberry Pi
+#   Uses chroot,qemu-user-static as main dependencies so far
+#   Author: Aditya Visvanathan
 
-# Some variables that will be used.
+#   Some variables that will be used.
 
 OS="$(uname)"
 DATE=`date +%Y%m%d`
 DEFMIR="http://archive.raspbian.org/raspbian"
 
 
-# Declare functions here..
+#   Declare functions here..
 
-#Display usage he;p for -h parameter and no parameters as well
+#   Display usage here for -h parameter and no parameters as well
 usage() {
     if  [ "$1" = "-h" ] || [ $# -eq 0 ] ; then
         printf "\tUSAGE: pistrap -i /path/to/config/template\n"
@@ -22,7 +22,7 @@ usage() {
 }
 
 
-#Check if script is not being run with root privileges
+#   Check if script is not being run with root privileges
 checkuid() {
     if [  "$UID" -eq 0 ]; then
         echo "You're running with root privileges.Please Don't!"
@@ -32,19 +32,19 @@ checkuid() {
 }
 
 
-#Variable to tor template location
+#   Variable to tor template location
 FILELOC=$2
 CHECKFLAG=1
 IMAGEFLAG=1
 CHROOT="./bootstrap"            #   Default chroot bootstrap location(obsolete)
 checkuid                        #   Call checkuid function
 usage "$@"                      #   A call for help
-if [ ! -e "$FILELOC" ]; then    #This is more for my testing,will change this shit
+if [ ! -e "$FILELOC"/template ]; then    #This is more for my testing,will change this shit
     printf "\tNo template found.\n"
     exit 1 
 fi
 
-source "$FILELOC"               #Grab variable from template
+source "$FILELOC"/template               #Grab variable from template
 echo "Template found,sourcing variables:"
 
 if [ ! -d "$rootfs" ]; then
@@ -105,7 +105,7 @@ fi
 sudo cp /usr/bin/qemu-arm-static "$rootfs"/usr/bin/
 
 #   chroot to raspbian
-sudo cp install.sh "$rootfs"/
+sudo cp "$FILELOC"/install.sh "$rootfs"/
 sudo chroot "$rootfs" /bin/bash install.sh 
 
 #   revert ld.so.preload fix
