@@ -19,6 +19,10 @@ The available options are:
 
 `buildenv` - Build directory
 
+The above variables have been deprecated.
+
+Preferably use Debian for best support of cross compatibility.
+
 
 
 
